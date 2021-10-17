@@ -1,0 +1,70 @@
+{
+  "dev": {
+    "server": {
+      "url": "http://www.site.com",
+      "resources": {
+        "mem": 2048,
+        "color": "yellow",
+        "mem_min": 1024
+      }
+    },
+    "rack": {
+      "blade_lowspec": {
+        "n": 3,
+        "mem_min": 1024
+      }
+    },
+    "name": "myname",
+    "name_prefix": "mr",
+    "id": 12345,
+    "tags": [
+      "server",
+      "api"
+    ],
+    "big_pswd": "dummy",
+    "dev": {
+      "var1": "aix"
+    },
+    "other": {
+      "var1": "GOLD",
+      "var4": "WOODEN",
+      "var5": "A",
+      "var6": "AIR",
+      "var8": "BLUE"
+    }
+  },
+  "test": {
+    "server": {
+      "url": "http://www.site.com",
+      "resources": {
+        "mem": 2048,
+        "color": "yellow",
+        "mem_min": 1024
+      }
+    },
+    "rack": {
+      "blade_lowspec": {
+        "n": 3,
+        "mem_min": 1024
+      }
+    },
+    "name": "myname",
+    "name_prefix": "mr",
+    "id": 12345,
+    "tags": [
+      "server",
+      "api"
+    ],
+    "big_pswd": "dummy",
+    "dev": {
+      "var1": "aix"
+    },
+    "other": {
+      "var1": "GOLD",
+      "var4": "WOODEN",
+      "var5": "A",
+      "var6": "AIR",
+      "var8": "BLUE"
+    }
+  }
+}

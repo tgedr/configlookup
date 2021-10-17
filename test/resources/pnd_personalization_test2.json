@@ -1,0 +1,50 @@
+{
+  "dev": {
+    "server": {
+      "resources": {
+        "mem": 9192,
+        "timeout": 6
+      }
+    },
+    "name_prefix": "dr",
+    "big_pswd": "stilldummy",
+    "local": {
+      "var1": "zzs"
+    },
+    "tags": [
+      "server",
+      "api"
+    ],
+    "other": {
+      "var3": "BRONZE",
+      "var5": "C",
+      "var6": "WATER",
+      "var7": "1000",
+      "var8": "BIG"
+    }
+  },
+  "test": {
+    "server": {
+      "resources": {
+        "mem": 9192,
+        "timeout": 6
+      }
+    },
+    "name_prefix": "dr",
+    "big_pswd": "stilldummy",
+    "local": {
+      "var1": "zzs"
+    },
+    "tags": [
+      "server",
+      "api"
+    ],
+    "other": {
+      "var3": "BRONZE",
+      "var5": "C",
+      "var6": "WATER",
+      "var7": "1000",
+      "var8": "BIG"
+    }
+  }
+}
