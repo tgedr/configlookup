@@ -12,7 +12,7 @@ JSON_FILE_1_SUFFIX = "_all"
 JSON_FILE_2_SUFFIX = "_test2"
 JSON_FILES_SUFFIXES = [JSON_FILE_1_SUFFIX, JSON_FILE_2_SUFFIX]
 
-JSON_FILE_1 = f"{os.path.dirname(os.path.realpath(__file__))}/resources/pnd_personalization_all.json"
+JSON_FILE_1 = f"{os.path.dirname(os.path.realpath(__file__))}/resources/configlookup_all.json"
 
 
 class DummyOverrider(AbstractOverrider):
@@ -29,10 +29,11 @@ class DummyOverrider(AbstractOverrider):
 
 @pytest.fixture
 def instance(monkeypatch):
+    monkeypatch.setenv("CONFIGLOOKUP_DIR", RESOURCES_DIR)
     return Configuration()
 
 
-def test_type_error(instance):
+def test_type_error(instance, monkeypatch):
     with pytest.raises(TypeError) as x:
         instance._Configuration__load(1234)
 

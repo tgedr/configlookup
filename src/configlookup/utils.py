@@ -186,34 +186,22 @@ class ConfigurationUtils:
         return file_paths
 
     @staticmethod
-    def resolve_env_or_airflow_variable(variable: str, default: Optional[str] = None) -> str:
-        log.info(f"[ConfigurationUtils.resolve_env_or_airflow_variable|in] ({variable}, {default})")
+    def resolve_env_variable(variable: str, default: Optional[str] = None) -> str:
+        log.info(f"[ConfigurationUtils.resolve_env_variable|in] ({variable}, {default})")
 
         _result = None
-        log.debug("[ConfigurationUtils.resolve_env_or_airflow_variable] trying to find it in system variables")
+        log.debug("[ConfigurationUtils.resolve_env_variable] trying to find it in env variables")
         try:
             _result = os.environ[variable]
         except Exception as x:
             log.debug(
-                f"[ConfigurationUtils.resolve_env_or_airflow_variable] not found: {variable}",
+                f"[ConfigurationUtils.resolve_env_variable] not found: {variable}",
                 exc_info=x,
             )
 
-        if _result is None:
-            log.debug("[ConfigurationUtils.resolve_env_or_airflow_variable] trying to find it in airflow variables")
-            try:
-                from airflow.models import Variable
-
-                _result = Variable.get(variable)
-            except Exception as x:
-                log.debug(
-                    f"[ConfigurationUtils.resolve_env_or_airflow_variable] no airflow variable: {variable}",
-                    exc_info=x,
-                )
-
         result = _result if _result is not None else default
 
-        log.info(f"[ConfigurationUtils.resolve_env_or_airflow_variable|out] => {result}")
+        log.info(f"[ConfigurationUtils.resolve_env_variable|out] => {result}")
         return result
 
     @staticmethod

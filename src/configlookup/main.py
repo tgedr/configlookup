@@ -2,7 +2,6 @@ import logging
 import os
 from typing import List, Optional
 
-from configlookup.overrider.databricks_keyvault_overrider import DatabricksKeyVaultOverrider
 from configlookup.overrider.environment_overrider import EnvironmentOverrider
 from configlookup.reader import FileSysConfigurationReader
 from configlookup.singleton import SingletonMeta
@@ -14,14 +13,12 @@ log = logging.getLogger(__name__)
 class Configuration(metaclass=SingletonMeta):
 
     MANDATORY_CONFIGURATION_SECTION = "common"
-    VAR_CONFIGURATION_DATABRICKS_KEYVAULT_SCOPE = "AA_CONFIGURATION_DATABRICKS_KEYVAULT_SCOPE"
-    VAR_CONFIGURATION_ENABLE_AIRFLOW_VARS = "AA_CONFIGURATION_ENABLE_AIRFLOW_VARS"
-    VAR_CONFIGURATION_DIR = "AA_CONFIGURATION_DIR"
+    VAR_CONFIGURATION_DIR = "CONFIGLOOKUP_DIR"
     DEFAULT_CONFIGURATION_DIR = os.path.dirname(os.path.realpath(__file__))
-    VAR_CONFIGURATION_FILE_PREFIX = "AA_CONFIGURATION_FILE_PREFIX"
-    DEFAULT_CONFIGURATION_FILE_PREFIX = "pnd_personalization"
+    VAR_CONFIGURATION_FILE_PREFIX = "CONFIGLOOKUP_FILE_PREFIX"
+    DEFAULT_CONFIGURATION_FILE_PREFIX = "configlookup"
     DEFAULT_CONFIGURATION_FILE_SUFFIXES = ["", "_all", "_local"]
-    VAR_CONFIGURATION_ENV = "AA_ENV"
+    VAR_CONFIGURATION_ENV = "CONFIGLOOKUP_ENV"
     DEFAULT_CONFIGURATION_ENV = "dev"
 
     def __init__(
@@ -38,11 +35,11 @@ class Configuration(metaclass=SingletonMeta):
         files_path : Optional[str]
             folder where to find config files to be read
         files_prefix : Optional[str]
-            config file prefix, default: "pnd_personalization", as in "pnd_personalization.json",
-            "pnd_personalization_all.json", "pnd_personalization_local.json"
+            config file prefix, default: "configlookup", as in "configlookup.json",
+            "pnd_personalization_all.json", "configlookup.json"
         files_additional_suffixes: Optional[List[str]]
             the file name additional suffixes to use when searching for config files (default: ["", "_all", "_local"]),
-            as in "pnd_personalization.json", "pnd_personalization_all.json", "pnd_personalization_local.json"
+            as in "configlookup.json", "configlookup_all.json", "configlookup_local.json"
         files : Optional[List[str]]
             instead of (config_path + file_prefix + file_additional_suffixes) we can just provide a list of absolute paths to config files
         environment : Optional[str]
@@ -79,7 +76,7 @@ class Configuration(metaclass=SingletonMeta):
         data = {}
         # find runtime environment
         env = (
-            ConfigurationUtils.resolve_env_or_airflow_variable(
+            ConfigurationUtils.resolve_env_variable(
                 Configuration.VAR_CONFIGURATION_ENV, Configuration.DEFAULT_CONFIGURATION_ENV
             )
             if environment is None
@@ -91,12 +88,12 @@ class Configuration(metaclass=SingletonMeta):
             _file_suffixes.extend(files_additional_suffixes)
 
         _files = ConfigurationUtils.get_config_file_paths(
-            ConfigurationUtils.resolve_env_or_airflow_variable(
+            ConfigurationUtils.resolve_env_variable(
                 Configuration.VAR_CONFIGURATION_DIR, Configuration.DEFAULT_CONFIGURATION_DIR
             )
             if files_path is None
             else files_path,
-            ConfigurationUtils.resolve_env_or_airflow_variable(
+            ConfigurationUtils.resolve_env_variable(
                 Configuration.VAR_CONFIGURATION_FILE_PREFIX,
                 Configuration.DEFAULT_CONFIGURATION_FILE_PREFIX,
             )
@@ -109,22 +106,6 @@ class Configuration(metaclass=SingletonMeta):
         data = FileSysConfigurationReader(_files, data, [Configuration.MANDATORY_CONFIGURATION_SECTION, env]).read()
         # handle overriders ...
         self.__overriders = []
-        # ... overriders: airflow variables
-        enable_airflow_vars = ConfigurationUtils.resolve_env_or_airflow_variable(
-            Configuration.VAR_CONFIGURATION_ENABLE_AIRFLOW_VARS
-        )
-        if enable_airflow_vars is not None and enable_airflow_vars.lower() == "true":
-            log.info("[__load] adding AirflowEnvOverrider")
-            from configlookup.overrider.airflow_env_overrider import AirflowEnvOverrider
-
-            self.__overriders.append(AirflowEnvOverrider())
-        # ... overriders: databricks keyvault
-        databricks_keyvault_scope = ConfigurationUtils.resolve_env_or_airflow_variable(
-            Configuration.VAR_CONFIGURATION_DATABRICKS_KEYVAULT_SCOPE
-        )
-        if databricks_keyvault_scope is not None:
-            log.info(f"[__load] adding DatabricksKeyVaultOverrider with scope: {databricks_keyvault_scope}")
-            self.__overriders.append(DatabricksKeyVaultOverrider(databricks_keyvault_scope))
         # ... overriders: environment
         self.__overriders.append(EnvironmentOverrider())
 
