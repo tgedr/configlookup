@@ -96,7 +96,7 @@ code_check()
 bumpversion()
 {
     info "[bumpversion|in] ($1)"
-    bump2version --list "$1"
+    bump2version --list "$1" && git push --follow-tags
     info "[bumpversion|out]"
 }
 
