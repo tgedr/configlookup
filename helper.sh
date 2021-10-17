@@ -68,6 +68,8 @@ usage()
                             creates "requirements.txt" file
                         code_check
                           code check: runs 'black', 'autoflake' & 'isort'
+                        bumpversion_patch, bumpversion_minor, bumpversion_major
+                          bumps semver version
 
 
 EOM
@@ -91,19 +93,13 @@ code_check()
     info "[code_check|out]"
 }
 
-bumpversion_minor()
+bumpversion()
 {
-    info "[code_check|in]"
-    bump2version --list minor
-    info "[code_check|out]"
+    info "[bumpversion|in] ($1)"
+    bump2version --list "$1"
+    info "[bumpversion|out]"
 }
 
-bumpversion_patch()
-{
-    info "[code_check|in]"
-    bump2version --list patch
-    info "[code_check|out]"
-}
 
 build()
 {
@@ -155,6 +151,15 @@ case "$1" in
         ;;
     code_check)
         code_check
+        ;;
+    bumpversion_patch)
+        bumpversion "patch"
+        ;;
+    bumpversion_minor)
+        bumpversion "minor"
+        ;;
+    bumpversion_major)
+        bumpversion "major"
         ;;
     *)
         usage
