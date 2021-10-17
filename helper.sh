@@ -77,7 +77,7 @@ EOM
 reqs()
 {
     info "[reqs|in]"
-    python -m pip install --upgrade pip setuptools wheel build twine artifacts-keyring keyring bump2version
+    python -m pip install --upgrade pip setuptools wheel build twine artifacts-keyring keyring bump2version pipreqs
     python -m pip install astroid==2.5.2 pycodestyle==2.7.0 pyflakes==2.3.0 isort black autoflake pytest-cov
     info "[reqs|out]"
 }
@@ -116,7 +116,7 @@ test()
 create_requirements()
 {
   info "[create_requirements|in]"
-  pipreqs ./ --ignore .venv --force
+  pipreqs ./ --ignore .env --force
   info "[create_requirements|out]"
 }
 
