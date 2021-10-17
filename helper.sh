@@ -91,6 +91,20 @@ code_check()
     info "[code_check|out]"
 }
 
+bumpversion_minor()
+{
+    info "[code_check|in]"
+    bump2version --list minor
+    info "[code_check|out]"
+}
+
+bumpversion_patch()
+{
+    info "[code_check|in]"
+    bump2version --list patch
+    info "[code_check|out]"
+}
+
 build()
 {
     info "[build|in]"
