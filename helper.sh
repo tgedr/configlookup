@@ -105,7 +105,7 @@ build()
 {
     info "[build|in]"
     rm dist/*
-    bump2version --list patch && pyproject-build && twine check dist/*
+    pyproject-build && twine check dist/*
     info "[build|out]"
 }
 
