@@ -1,2 +1,1 @@
-README.md
-*.json
+include test/resources/*.json
