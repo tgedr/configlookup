@@ -3,6 +3,13 @@ This project aim is to implement a simple and extensible way of accessing config
 The configuration values can be provided in json files, environment variables, secrets, etc.
 
 # Getting Started
+
+## installation
+you can install the package from [pypi](https://pypi.org/project/configlookup/):
+
+`pip install configlookup`
+
+## usage
 The configuration class is implemented as a singleton.
 Main usage:
 - define environment vars:
@@ -10,6 +17,8 @@ Main usage:
   - CONFIGLOOKUP_DIR - absolute path where the config json files can be found - default: local dir
   - CONFIGLOOKUP_FILE_PREFIX - prefix of configuration files name - default: configlookup
 ```
+from configlookup.main import Configuration
+...
 config_value = Configuration.get("root.config_group.key")
 ```
 
