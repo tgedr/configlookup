@@ -1,0 +1,25 @@
+name: release
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+    - name: get timestamp
+      id: timestamp
+      run: echo "::set-output name=ts::$(date +'%y%m%d%H%M%S')"
+    - name: build
+      run: ./helper.sh build
+    - name: publish
+        if: startsWith(github.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
