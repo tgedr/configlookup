@@ -19,7 +19,6 @@ jobs:
     - name: build
       run: ./helper.sh build
     - name: publish
-      if: startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
