@@ -94,6 +94,7 @@ code_check()
 build()
 {
     info "[build|in]"
+    bump2version --list patch
     pyproject-build
     twine check dist/*
     info "[build|out]"
@@ -102,7 +103,7 @@ build()
 publish()
 {
     info "[publish|in]"
-    python -m twine upload -r main --config-file $PYPIRC_PATH dist/*.whl
+    python -m twine upload dist/*.whl
     info "[publish|out]"
 }
 
