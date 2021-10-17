@@ -3,10 +3,6 @@
 # http://bash.cumulonim.biz/NullGlob.html
 shopt -s nullglob
 
-# reference documentation
-# https://docs.microsoft.com/en-us/azure/devops/artifacts/quickstarts/python-packages?view=azure-devops
-# https://docs.microsoft.com/en-us/azure/devops/artifacts/quickstarts/python-cli?view=azure-devops
-
 # -------------------------------
 # --- COMMON FUNCTION SECTION ---
 
