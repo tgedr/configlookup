@@ -16,6 +16,8 @@ jobs:
     - name: get timestamp
       id: timestamp
       run: echo "::set-output name=ts::$(date +'%y%m%d%H%M%S')"
+    - name: install build reqs
+      run: ./helper.sh reqs
     - name: build
       run: ./helper.sh build
     - name: publish
