@@ -94,9 +94,8 @@ code_check()
 build()
 {
     info "[build|in]"
-    bump2version --list patch
-    pyproject-build
-    twine check dist/*
+    rm dist/*
+    bump2version --list patch && pyproject-build && twine check dist/*
     info "[build|out]"
 }
 
