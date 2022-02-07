@@ -57,7 +57,7 @@ usage()
                         build
                             build package
                         publish
-                            publishes the wheel to azure artifacts
+                            publishes the wheel to pypi
                         test
                             runs unit tests
                         create_requirements
